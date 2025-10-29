@@ -1,5 +1,4 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
-
+**Sistem de Gestionare a Informațiilor Studenților**
 ### Folosiți template-ul corespunzător grupei voastre!
 
 | Laborant  | Link template                                |
