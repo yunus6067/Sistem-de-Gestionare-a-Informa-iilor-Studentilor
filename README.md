@@ -1,4 +1,4 @@
-### sSistem de Gestionare a Informațiilor Studenților
+### Sistem de Gestionare a Informațiilor Studenților
 
 
 
