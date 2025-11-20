@@ -1,50 +1,136 @@
 #include <iostream>
-#include <array>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iomanip>
+using namespace std;
 
+// -------------------- CLASS NOTE --------------------
+class Note {
+private:
+    vector<int> valori;
+
+public:
+    // Конструкторы
+    Note() = default;
+    Note(const vector<int>& valori) : valori(valori) {}
+    Note(const Note& other) = default;
+    Note& operator=(const Note& other) = default;
+    ~Note() = default;
+
+    // Добавление оценки
+    void adaugaNota(int n) { valori.push_back(n); }
+
+    // Средний балл
+    double calculeazaMedie() const {
+        if (valori.empty()) return 0;
+        double suma = 0;
+        for (int v : valori) suma += v;
+        return suma / valori.size();
+    }
+
+    // Количество оценок
+    int getNrNote() const { return valori.size(); }
+
+    // Вывод
+    friend ostream& operator<<(ostream& out, const Note& n) {
+        out << "Note: ";
+        for (int v : n.valori) out << v << " ";
+        out << "(Medie: " << fixed << setprecision(2) << n.calculeazaMedie() << ")";
+        return out;
+    }
+};
+
+// -------------------- CLASS STUDENT --------------------
+class Student {
+private:
+    string nume;
+    int id;
+    Note note;
+
+public:
+    // Конструкторы
+    Student() : nume("Anonim"), id(0) {}
+    Student(int id, const string& nume, const Note& note)
+        : id(id), nume(nume), note(note) {}
+    Student(const Student& other) = default;
+    Student& operator=(const Student& other) = default;
+    ~Student() = default;
+
+    // Геттеры
+    string getNume() const { return nume; }
+    double getMedie() const { return note.calculeazaMedie(); }
+
+    // Методы
+    void adaugaNota(int n) { note.adaugaNota(n); }
+
+    bool esteIntegralist() const { // студент без оценок < 5
+        return note.calculeazaMedie() >= 5;
+    }
+
+    // Вывод
+    friend ostream& operator<<(ostream& out, const Student& s) {
+        out << "ID: " << s.id << ", Nume: " << s.nume << ", " << s.note;
+        return out;
+    }
+};
+
+// -------------------- CLASS GRUP --------------------
+class Grup {
+private:
+    vector<Student> studenti;
+
+public:
+    // Методы
+    void adaugaStudent(const Student& s) { studenti.push_back(s); }
+
+    void afiseazaToti() const {
+        cout << "\nLista studentilor:\n";
+        for (const auto& s : studenti)
+            cout << s << endl;
+    }
+
+    void sorteazaDupaMedie() {
+        sort(studenti.begin(), studenti.end(),
+             [](const Student& a, const Student& b) {
+                 return a.getMedie() > b.getMedie();
+             });
+    }
+
+    void afiseazaIntegraliști() const {
+        cout << "\nStudenti integralisti:\n";
+        for (const auto& s : studenti)
+            if (s.esteIntegralist())
+                cout << s << endl;
+    }
+};
+
+// -------------------- MAIN --------------------
 int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
-    }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
+    Note n1({9, 10, 8});
+    Note n2({4, 6, 5});
+    Note n3({10, 9, 9});
+
+    Student s1(1, "Ion Popescu", n1);
+    Student s2(2, "Maria Ionescu", n2);
+    Student s3(3, "Andrei Vasile", n3);
+
+    Grup g;
+    g.adaugaStudent(s1);
+    g.adaugaStudent(s2);
+    g.adaugaStudent(s3);
+
+    cout << "Inainte de sortare:\n";
+    g.afiseazaToti();
+
+    g.sorteazaDupaMedie();
+    cout << "\nDupa sortare:\n";
+    g.afiseazaToti();
+
+    g.afiseazaIntegraliști();
+
+    int l;
+    cin >>l;
     return 0;
 }
+
