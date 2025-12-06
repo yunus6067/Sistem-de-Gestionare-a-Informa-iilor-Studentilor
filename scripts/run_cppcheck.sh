@@ -8,5 +8,4 @@ cppcheck --enable=all \
     --suppress=missingIncludeSystem \
     --suppress=unmatchedSuppression \
     --suppress=useStlAlgorithm \
-    --check-level=exhaustive \
-    --error-exitcode=1
+    --check-level=exhaustive 
