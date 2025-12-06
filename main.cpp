@@ -97,7 +97,7 @@ public:
              });
     }
 
-    void afiseazaIntegraliști() const {
+    void afiseazaIntegralisti() const {
         cout << "\nStudenti integralisti:\n";
         for (const auto& s : studenti)
             if (s.esteIntegralist())
@@ -127,7 +127,7 @@ int main() {
     cout << "\nDupa sortare:\n";
     g.afiseazaToti();
 
-    g.afiseazaIntegraliști();
+    g.afiseazaIntegralisti();
     return 0;
 }
 
