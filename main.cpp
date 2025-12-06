@@ -128,9 +128,6 @@ int main() {
     g.afiseazaToti();
 
     g.afiseazaIntegraliști();
-
-    int l;
-    cin >>l;
     return 0;
 }
 
