@@ -52,7 +52,7 @@ public:
     // Конструкторы
     Student() : nume("Anonim"), id(0) {}
     Student(int id, const string& nume, const Note& note)
-        : id(id), nume(nume), note(note) {}
+        : nume(nume), id(id), note(note) {}
     Student(const Student& other) = default;
     Student& operator=(const Student& other) = default;
     ~Student() = default;
