@@ -2,6 +2,7 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <utility>
 
 class Evaluare {
 protected:
@@ -9,7 +10,9 @@ protected:
     virtual void print(std::ostream& out) const = 0;
 
 public:
-    explicit Evaluare(std::string disc);   // <-- doar declaratie
+    // FIX: Added the implementation body {} here
+    explicit Evaluare(std::string disc) : disciplina(std::move(disc)) {}
+    
     virtual ~Evaluare() = default;
 
     virtual int notaFinala() const = 0;
